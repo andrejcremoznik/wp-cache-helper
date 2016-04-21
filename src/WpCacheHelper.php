@@ -4,13 +4,13 @@ namespace AndrejCremoznik\WpCacheHelper;
 
 class WpCacheHelper {
     private $cache_key;
-    private static $cache_ittr_key = 'cache_itteration';
+    const ITTR_KEY = 'cache_itteration';
 
     /**
      * Create new instance
      * @param string $cache_key Key to cache data as
      */
-    public function __contruct($cache_key = false) {
+    public function __construct($cache_key = false) {
         if (!$cache_key)
             throw new \Exception('No cache key provided.');
 
@@ -23,13 +23,12 @@ class WpCacheHelper {
      * @return int
      */
     private function get_cache_itteration() {
-        $cache_ittr = wp_cache_get(self::cache_ittr_key);
+        $cache_ittr = wp_cache_get(self::ITTR_KEY);
 
         if ($cache_ittr === false) {
-            wp_cache_set(self::cache_ittr_key, 1);
+            wp_cache_set(self::ITTR_KEY, 1);
             $cache_ittr = 1;
         }
-
         return $cache_ittr;
     }
 
@@ -53,6 +52,6 @@ class WpCacheHelper {
      * Flush cache by incrementing current cache itteration
      */
     public static function flush() {
-        wp_cache_incr(self::cache_ittr_key);
+        wp_cache_incr(self::ITTR_KEY);
     }
 }
